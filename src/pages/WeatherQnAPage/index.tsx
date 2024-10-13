@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { getWeatherData } from "../../api/OpenWeatherMapApi";
+import { getDatesWithCompromise, getPlaceWithCompromise } from "../../utils/CompromiseUtil";
 
 export default function WeatherQnAPage() {
     const [question, setQuestion] = useState("");
@@ -7,7 +8,10 @@ export default function WeatherQnAPage() {
 
     const handleQuestionBtn = async () => {
         try {
-            const weatherData = await getWeatherData('Seoul', '2024-10-10');
+            const place = getPlaceWithCompromise(question);
+            const date = getDatesWithCompromise(question);
+
+            const weatherData = await getWeatherData(place, date);
 
             console.log(weatherData);
             setAnswer('Fetch 완료');
