@@ -6,6 +6,7 @@ import { WeatherChat } from "../../components/chats/WeatherChat";
 import { WeatherQueryInput } from "../../components/inputs/WeatherQueryInput";
 import { Message } from "../../types/weatherType";
 import { WeatherContainer } from "./index.styles";
+import dayjs from "dayjs";
 
 export default function WeatherQnAPage() {
     const [question, setQuestion] = useState("");               // 질문
@@ -13,15 +14,13 @@ export default function WeatherQnAPage() {
 
     const handleQuestionBtn = async () => {
         try {
-            const translatedQuestion = await callGoogleTranslate(question, 'en');
-            const place = getPlaceWithCompromise(translatedQuestion);
-            const date = getDatesWithCompromise(translatedQuestion);
-
-            const weatherData = await getWeatherData(place, date);
-            console.log(weatherData);
+            const translatedQuestion = await callGoogleTranslate(question, 'en');   // Translation API를 통해 질문을 영문으로 번역
+            const place = getPlaceWithCompromise(translatedQuestion);                   // 장소
+            const date = getDatesWithCompromise(translatedQuestion);                 // 날짜
+            const weatherData = await getWeatherData(place, date);      // WeatherMap API를 통한 데이터
 
             const userMessage: Message = { text: question, isUser: true };
-            const botMessage: Message = { text: `현재 ${weatherData.name}의 날씨는 ${weatherData.weather[0].description}이며, 온도는 ${weatherData.main.temp}°C입니다.`, isUser: false };
+            const botMessage: Message = { text: `${weatherData.date ? dayjs(weatherData.date).format('MM월 DD일') : '오늘'} ${weatherData.city}의 날씨는 ${weatherData.description}이며, 온도는 ${weatherData.temp}°C입니다.`, isUser: false };
             
             // 화면에 표시할 메세지 배열에 Setting
             setMessages((prev) => [...prev, userMessage]);
