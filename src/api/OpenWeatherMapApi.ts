@@ -11,6 +11,7 @@ export const getWeatherData = async (city: string, date: string) => {
         q: city,
         appid: process.env.REACT_APP_OPENWEATHER_API_KEY,
         units: 'metric',
+        lang: 'kr',
       },
     });
 
