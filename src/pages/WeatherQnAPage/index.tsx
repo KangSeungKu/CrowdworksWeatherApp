@@ -16,11 +16,12 @@ export default function WeatherQnAPage() {
         try {
             const translatedQuestion = await callGoogleTranslate(question, 'en');   // Translation API를 통해 질문을 영문으로 번역
             const place = getPlaceWithCompromise(translatedQuestion);                   // 장소
+            const koPlace = await callGoogleTranslate(place, 'ko')                   // 장소(한글)
             const date = getDatesWithCompromise(translatedQuestion);                 // 날짜
             const weatherData = await getWeatherData(place, date);      // WeatherMap API를 통한 데이터
 
             const userMessage: Message = { text: question, isUser: true };
-            const botMessage: Message = { text: `${weatherData.date ? dayjs(weatherData.date).format('MM월 DD일') : '오늘'} ${weatherData.city}의 날씨는 ${weatherData.description}이며, 온도는 ${weatherData.temp}°C입니다.`, isUser: false };
+            const botMessage: Message = { text: `${weatherData.date ? dayjs(weatherData.date).format('MM월 DD일') : '오늘'} ${koPlace}의 날씨는 ${weatherData.description}이며, 온도는 ${weatherData.temp}°C입니다.`, isUser: false };
             
             // 화면에 표시할 메세지 배열에 Setting
             setMessages((prev) => [...prev, userMessage]);
