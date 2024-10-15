@@ -7,10 +7,12 @@ import { WeatherQueryInput } from "../../components/inputs/WeatherQueryInput";
 import { Message } from "../../types/weatherType";
 import { WeatherContainer } from "./index.styles";
 import dayjs from "dayjs";
+import { useRecoilState } from "recoil";
+import { weatherHistoryState } from "../../utils/RecoilState";
 
 export default function WeatherQnAPage() {
     const [question, setQuestion] = useState("");               // 질문
-    const [messages, setMessages] = useState<Message[]>([]);    // 화면에 표시할 답변
+    const [messages, setMessages] = useRecoilState<Message[]>(weatherHistoryState);    // 화면에 표시할 답변
 
     const handleQuestionBtn = async () => {
         try {
