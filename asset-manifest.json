@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/CrowdworksWeatherApp/static/css/main.f845deef.css",
+    "main.js": "/CrowdworksWeatherApp/static/js/main.d505a5f8.js",
+    "static/js/453.e06ed586.chunk.js": "/CrowdworksWeatherApp/static/js/453.e06ed586.chunk.js",
+    "index.html": "/CrowdworksWeatherApp/index.html",
+    "main.f845deef.css.map": "/CrowdworksWeatherApp/static/css/main.f845deef.css.map",
+    "main.d505a5f8.js.map": "/CrowdworksWeatherApp/static/js/main.d505a5f8.js.map",
+    "453.e06ed586.chunk.js.map": "/CrowdworksWeatherApp/static/js/453.e06ed586.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f845deef.css",
+    "static/js/main.d505a5f8.js"
+  ]
+}
