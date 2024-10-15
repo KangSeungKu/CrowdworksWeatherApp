@@ -13,6 +13,10 @@ export const getPlaceWithCompromise = (text: string) => {
 
 // 특정 자연어로부터 날짜를 반환하는 함수
 export const getDatesWithCompromise = (text: string) => {
+    if(text.includes('after') && text.includes('tomorrow')) {
+        return dayjs().add(2, 'day').format('YYYY-MM-DD');
+    }
+
     // 작은 다옴표같은 특수문자가 포함될 경우, 정상동작하지 않는 오류가 존재
     const doc = nlp(text.replaceAll('\'', ' '));
     const resDate = doc.dates().get();
