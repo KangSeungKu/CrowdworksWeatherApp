@@ -21,6 +21,7 @@ export default function WeatherQnAPage() {
         // 날씨 외에 다른 질문에 대한 처리
         if(!question.includes("날씨")) {
             setMessages((prev) => [...prev, { text: '현재 날씨에 관해서만 답할 수 있으므로, 날씨에 대해 물어봐주시기 바랍니다.', isUser: false }]);
+            setQuestion('');
             return;
         }
 
