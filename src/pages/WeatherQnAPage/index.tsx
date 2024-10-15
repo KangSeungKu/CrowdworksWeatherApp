@@ -15,6 +15,15 @@ export default function WeatherQnAPage() {
     const [messages, setMessages] = useRecoilState<Message[]>(weatherHistoryState);    // 화면에 표시할 답변
 
     const handleQuestionBtn = async () => {
+        // 사용자 질문 메세지 배열에 추가
+        setMessages((prev) => [...prev, { text: question, isUser: true }]);
+
+        // 날씨 외에 다른 질문에 대한 처리
+        if(!question.includes("날씨")) {
+            setMessages((prev) => [...prev, { text: '현재 날씨에 관해서만 답할 수 있으므로, 날씨에 대해 물어봐주시기 바랍니다.', isUser: false }]);
+            return;
+        }
+
         try {
             const translatedQuestion = await callGoogleTranslate(question, 'en');   // Translation API를 통해 질문을 영문으로 번역
             const place = getPlaceWithCompromise(translatedQuestion);                   // 장소
@@ -22,12 +31,14 @@ export default function WeatherQnAPage() {
             const date = getDatesWithCompromise(translatedQuestion);                 // 날짜
             const weatherData = await getWeatherData(place, date);      // WeatherMap API를 통한 데이터
 
-            const userMessage: Message = { text: question, isUser: true };
-            const botMessage: Message = { text: `${weatherData.date ? dayjs(weatherData.date).format('MM월 DD일') : '오늘'} ${koPlace}의 날씨는 ${weatherData.description}이며, 온도는 ${weatherData.temp}°C입니다.`, isUser: false };
             
             // 화면에 표시할 메세지 배열에 Setting
-            setMessages((prev) => [...prev, userMessage]);
+            const botMessage: Message = { 
+                text: `${weatherData.date ? dayjs(weatherData.date).format('MM월 DD일') : '오늘'} ${koPlace}의 날씨는 ${weatherData.description}이며, 온도는 ${weatherData.temp}°C입니다.`, 
+                isUser: false 
+            };
             setMessages((prev) => [...prev, botMessage]);
+
             // input 초기화
             setQuestion('');
         } catch (error) {
